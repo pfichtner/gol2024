@@ -19,7 +19,7 @@ public class Board {
 
 	public static class BoardBuilder {
 
-		private Set<Coordinate> lifeCells = new HashSet<>();
+		private final Set<Coordinate> lifeCells = new HashSet<>();
 
 		public BoardBuilder withLifeAt(Coordinate coordinate) {
 			lifeCells.add(coordinate);
@@ -40,12 +40,16 @@ public class Board {
 		return lifeCells.contains(coordinate) ? ALIVE : DEAD;
 	}
 
+	private State transformedStateAs(Coordinate coordinate) {
+		return stateAt(coordinate).transform(aliveNeighbours(coordinate));
+	}
+
 	private int aliveNeighbours(Coordinate coordinate) {
 		return (int) coordinate.neighbours().map(this::stateAt).filter(ALIVE::equals).count();
 	}
 
 	public Board tick() {
-		return new Board(coordinates().filter(c -> stateAt(c).transform(aliveNeighbours(c)) == ALIVE).collect(toSet()));
+		return new Board(coordinates().filter(c -> ALIVE.equals(transformedStateAs(c))).collect(toSet()));
 	}
 
 	private Stream<Coordinate> coordinates() {
