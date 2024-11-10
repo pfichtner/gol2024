@@ -40,16 +40,16 @@ public class Board {
 		return lifeCells.contains(coordinate) ? ALIVE : DEAD;
 	}
 
-	private State transformedStateAs(Coordinate coordinate) {
-		return stateAt(coordinate).transform(aliveNeighbours(coordinate));
+	private int aliveNeighbours(Coordinate coordinate) {
+		return (int) coordinate.neighbours().map(this::stateAt).filter(State::isAlive).count();
 	}
 
-	private int aliveNeighbours(Coordinate coordinate) {
-		return (int) coordinate.neighbours().map(this::stateAt).filter(ALIVE::equals).count();
+	private boolean isAliveInNextGen(Coordinate coordinate) {
+		return stateAt(coordinate).transform(aliveNeighbours(coordinate)).isAlive();
 	}
 
 	public Board tick() {
-		return new Board(coordinates().filter(c -> ALIVE.equals(transformedStateAs(c))).collect(toSet()));
+		return new Board(coordinates().filter(this::isAliveInNextGen).collect(toSet()));
 	}
 
 	private Stream<Coordinate> coordinates() {
