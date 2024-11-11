@@ -40,7 +40,7 @@ class CellTest {
 	}
 
 	private State transform(State state, int aliveNeighbours) {
-		return state.transform(aliveNeighbours);
+		return state.transform(new AliveNeighbours(aliveNeighbours));
 	}
 
 }

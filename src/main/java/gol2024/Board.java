@@ -40,8 +40,8 @@ public class Board {
 		return lifeCells.contains(coordinate) ? ALIVE : DEAD;
 	}
 
-	private int aliveNeighbours(Coordinate coordinate) {
-		return (int) coordinate.neighbours().map(this::stateAt).filter(State::isAlive).count();
+	private AliveNeighbours aliveNeighbours(Coordinate coordinate) {
+		return new AliveNeighbours((int) coordinate.neighbours().map(this::stateAt).filter(State::isAlive).count());
 	}
 
 	private boolean isAliveInNextGen(Coordinate coordinate) {
