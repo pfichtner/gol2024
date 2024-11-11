@@ -24,8 +24,8 @@ class CellTest {
 
 	@ParameterizedTest
 	@ValueSource(ints = { 4, 5, 6, 7, 8, 9 }) // should be a PBT "forAll >= 4"
-	void overpopulate() {
-		assertThat(transform(ALIVE, 4)).isEqualTo(DEAD);
+	void overpopulate(int aliveNeighbours) {
+		assertThat(transform(ALIVE, aliveNeighbours)).isEqualTo(DEAD);
 	}
 
 	@Test
