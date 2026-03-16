@@ -14,7 +14,8 @@ public record Coordinate(int x, int y) {
 	}
 
 	public Stream<Coordinate> neighbours() {
-		return rangeClosed(y - 1, y + 1).mapToObj(y -> rangeClosed(x - 1, x + 1).mapToObj(x -> coordinate(x, y)))
-				.flatMap(identity()).filter(not(isEqual(this)));
+		return rangeClosed(y - 1, y + 1).boxed().flatMap(y -> rangeClosed(x - 1, x + 1).mapToObj(x -> coordinate(x, y)))
+				.filter(not(isEqual(this)));
 	}
+
 }

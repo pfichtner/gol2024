@@ -56,8 +56,7 @@ public class Board {
 		var min = xy(minBy(Integer::compare));
 		var max = xy(maxBy(Integer::compare));
 		return rangeClosed(min.y() - 1, max.y() + 1)
-				.mapToObj(y -> rangeClosed(min.x() - 1, max.x() + 1).mapToObj(x -> coordinate(x, y)))
-				.flatMap(identity());
+				.boxed().flatMap(y -> rangeClosed(min.x() - 1, max.x() + 1).mapToObj(x -> coordinate(x, y)));
 	}
 
 	private Coordinate xy(Collector<Integer, ?, Optional<Integer>> collector) {
